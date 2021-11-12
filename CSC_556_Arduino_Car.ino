@@ -50,7 +50,7 @@ void setup() {
   myservo.write(115);
   // update this section
   delay(2000);
-  distance = readPing();
+  readPing();
   delay(100);
 
   // freeRTOS tasks
