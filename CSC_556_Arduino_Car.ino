@@ -30,8 +30,9 @@ Servo myservo;
 // Globals
 boolean goesForward = false;
 int distance = 100;
+int distanceR = 0;
+int distanceL = 0;
 int speedSet = 0;
-int dir = 1; // distance LEFT = 0, distance RIGHT = 1
 
 static TaskHandle_t TaskDriveHandle = NULL;
 static TaskHandle_t TaskSenseHandle = NULL;
@@ -81,7 +82,6 @@ void loop() {
 void lookRight() {
   myservo.write(50);
   delay(500);
-  dir = 1;  // indicate direction is positive, to the right
   readPing();
   myservo.write(115);
   delay(100);
@@ -90,17 +90,11 @@ void lookRight() {
 void lookLeft() {
   myservo.write(170);
   delay(500);
-  dir = 0;  // indicate direction is negative, to the left
   readPing();
   myservo.write(115);
   delay(100);
 }
 
-void lookCenter() {
-  dir = 1;  // indicate direction is positive, to the center
-  readPing();
-  delay(100);
-}
 
 void readPing() {
   delay(70);
@@ -108,11 +102,6 @@ void readPing() {
   if (cm == 0)
   {
     cm = 250;
-  }
-
-  // make direction negative if distance is measured when looking left
-  if (dir == 0) {
-    cm = 0 - cm;
   }
   
   // *** critical section ***
@@ -204,8 +193,13 @@ void TaskDrive(void *pvParameters) {
       vTaskDelay(pdMS_TO_TICKS(100));
       moveStop();
       vTaskDelay(pdMS_TO_TICKS(100));
+      lookRight();
+      vTaskDelay(pdMS_TO_TICKS(200));
+      lookLeft();
+      vTaskDelay(pdMS_TO_TICKS(200));
+
       
-      if (distance < 0)
+      if (distanceR > distanceL)
       {
         turnRight();
         moveStop();
@@ -241,38 +235,14 @@ void TaskDrive(void *pvParameters) {
 // ***** WIP *****
 void TaskSense(void *pvParameters) {
 
-  enum States{RIGHT,CENTER,LEFT};
-  States state = FORWARD;
-
-
   for (;;) {
-    
-    vTaskDelay(pdMS_TO_TICKS(40));
-    
-    switch(case){
-      case RIGHT:
-        lookRight();
-        state = CENTER;
-        vTaskDelay(pdMS_TO_TICKS(200));
-      break;
-
-      case CENTER:
-        lookCenter();
-        state = LEFT;
-        vTaskDelay(pdMS_TO_TICKS(200));
-      break;
-
-      case LEFT:
-        lookLeft();
-        state = RIGHT;
-        vTaskDelay(pdMS_TO_TICKS(200));
-      break;
-    }
  
     if (distance <= MIN_DISTANCE)
     {
       vTaskSuspend(TaskSenseHandle);
     }
+
+    readPing();
                      
     vTaskDelay(pdMS_TO_TICKS(100));
   }
