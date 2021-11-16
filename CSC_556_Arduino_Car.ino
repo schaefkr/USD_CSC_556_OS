@@ -18,7 +18,7 @@
 #define MAX_DISTANCE 200
 #define MAX_SPEED 190 // set speed of DC motors
 #define MAX_SPEED_OFFSET 20
-#define MIN_DISTANCE = 15
+#define MIN_DISTANCE 15
 
 NewPing sonar(TRIG_PIN, ECHO_PIN, MAX_DISTANCE);
 AF_DCMotor motor1(1, MOTOR12_1KHZ);
@@ -105,7 +105,7 @@ void readPing() {
   }
   
   // *** critical section ***
-  if(xSemaphoreTake(xMutex, (TickType_t) 0xFFFFFFFF == 1)
+  if(xSemaphoreTake(xMutex, (TickType_t) 0xFFFFFFFF == 1))
   {
     distance = cm;
   }
@@ -213,7 +213,7 @@ void TaskDrive(void *pvParameters) {
       // reset distance to 100
       // not sure if this is necessary of we can just call readPing
       // *** critical section ***
-      if(xSemaphoreTake(xMutex, (TickType_t) 0xFFFFFFFF == 1)
+      if(xSemaphoreTake(xMutex, (TickType_t) 0xFFFFFFFF == 1))
       {
         distance = 100;
       }
