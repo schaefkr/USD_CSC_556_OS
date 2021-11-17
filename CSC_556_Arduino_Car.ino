@@ -57,7 +57,7 @@ void setup() {
   xTaskCreate(
     TaskDrive                // function name
     ,  "Drive"               // task name
-    ,  128                   // stack size
+    ,  1000                   // stack size
     ,  NULL                  // task parameters
     ,  2                     // task priority
     ,  &TaskDriveHandle );   // task handle
@@ -65,7 +65,7 @@ void setup() {
   xTaskCreate(
     TaskSense                // function name
     ,  "Sense"               // task name
-    ,  128                   // stack size
+    ,  1000                   // stack size
     ,  NULL                  // task parameters
     ,  2                     // task priority
     ,  &TaskSenseHandle );   // task handle
