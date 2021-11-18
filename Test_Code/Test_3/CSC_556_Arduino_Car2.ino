@@ -1,4 +1,3 @@
-
 // CSC 556 ARDUINO OBSTACLE AVOIDING CAR WTIH FREERTOS //
 // Nicholas Rasmussen, Kristin Schaefer, Bruce Stofft //
 // Original Source code from https://www.youtube.com/watch?v=1n_KjpMfVT0 //
@@ -47,7 +46,8 @@ void setup() {
 
   // update this section
   myservo.attach(10);
-  myservo.write(115);
+  myservo.write(90);
+//    myservo.write(115);
   // update this section
   delay(2000);
 //  readPing();
@@ -80,18 +80,20 @@ void setup() {
 //-----------------------------------------------------------------------Task Drive + Task Sense and Helper methods--------------------------------------------------------------------------------//
 
 void lookRight() {
-  myservo.write(50);
+  myservo.write(25);
   delay(500);
   readPingRight();
-  myservo.write(115);
+  myservo.write(90);
+//  myservo.write(115);
   delay(100);
 }
 
 void lookLeft() {
-  myservo.write(170);
+  myservo.write(165);
   delay(500);
   readPingLeft();
-  myservo.write(115);
+  myservo.write(90);
+//  myservo.write(115);
   delay(100);
 }
 
