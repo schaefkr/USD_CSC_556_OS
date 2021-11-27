@@ -1,4 +1,4 @@
-//ARDUINO OBSTACLE AVOIDING CAR//
+//ARDUINO OBSTACLE AVOIDING CAR SOURCE CODE//
 // Before uploading the code you have to install the necessary library//
 //AFMotor Library https://learn.adafruit.com/adafruit-motor-shield/library-install //
 //NewPing Library https://github.com/livetronic/Arduino-NewPing// 
@@ -13,7 +13,7 @@
 #define TRIG_PIN A0 
 #define ECHO_PIN A1 
 #define MAX_DISTANCE 200 
-#define MAX_SPEED 190 // sets speed of DC  motors
+#define MAX_SPEED 160 // sets speed of DC motors
 #define MAX_SPEED_OFFSET 20
 
 NewPing sonar(TRIG_PIN, ECHO_PIN, MAX_DISTANCE); 
@@ -48,7 +48,7 @@ void loop() {
  int distanceL =  0;
  delay(40);
  
- if(distance<=15)
+ if(distance<=25)
  {
   moveStop();
   delay(100);
@@ -79,21 +79,21 @@ void loop() {
 
 int lookRight()
 {
-    myservo.write(50); 
+    myservo.write(25); 
     delay(500);
     int distance = readPing();
     delay(100);
-    myservo.write(115); 
+    myservo.write(90); 
     return distance;
 }
 
 int lookLeft()
 {
-    myservo.write(170); 
+    myservo.write(155); 
     delay(500);
     int distance = readPing();
     delay(100);
-    myservo.write(115); 
+    myservo.write(90); 
     return distance;
     delay(100);
 }
@@ -124,7 +124,7 @@ void moveForward() {
     motor2.run(FORWARD);
     motor3.run(FORWARD); 
     motor4.run(FORWARD);     
-   for (speedSet = 0; speedSet < MAX_SPEED; speedSet +=2) // slowly bring the speed up to avoid loading down the batteries too quickly
+   for (speedSet = 0; speedSet < MAX_SPEED; speedSet +=2)
    {
     motor1.setSpeed(speedSet);
     motor2.setSpeed(speedSet);
@@ -141,7 +141,7 @@ void moveBackward() {
     motor2.run(BACKWARD);
     motor3.run(BACKWARD);
     motor4.run(BACKWARD);  
-  for (speedSet = 0; speedSet < MAX_SPEED; speedSet +=2) // slowly bring the speed up to avoid loading down the batteries too quickly
+  for (speedSet = 0; speedSet < MAX_SPEED; speedSet +=2)
   {
     motor1.setSpeed(speedSet);
     motor2.setSpeed(speedSet);
@@ -152,10 +152,10 @@ void moveBackward() {
 }  
 
 void turnRight() {
-  motor1.run(FORWARD);
-  motor2.run(FORWARD);
-  motor3.run(BACKWARD);
-  motor4.run(BACKWARD);     
+  motor1.run(BACKWARD);
+  motor2.run(BACKWARD);
+  motor3.run(FORWARD);
+  motor4.run(FORWARD);     
   delay(500);
   motor1.run(FORWARD);      
   motor2.run(FORWARD);
@@ -164,13 +164,13 @@ void turnRight() {
 } 
  
 void turnLeft() {
-  motor1.run(BACKWARD);     
-  motor2.run(BACKWARD);  
-  motor3.run(FORWARD);
-  motor4.run(FORWARD);   
+  motor1.run(FORWARD);     
+  motor2.run(FORWARD);  
+  motor3.run(BACKWARD);
+  motor4.run(BACKWARD);   
   delay(500);
   motor1.run(FORWARD);     
   motor2.run(FORWARD);
   motor3.run(FORWARD);
   motor4.run(FORWARD);
-}  
+} 
